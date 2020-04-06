@@ -5,9 +5,12 @@
  */
 package analisisImagenes;
 //visual estudio code 
+import AnalisisEspacial.Convolucion;
+import AnalisisEspacial.DeteccionBordes;
 import AnalisisEspacial.FiltrosEspaciales;
 import GUI.JFrameImagen;
 import AnalisisEspacial.Histogramas;
+import AnalisisEspacial.Suavizado;
 import GUI.JFrameSegmentacion;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -27,11 +30,42 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Image imagen = AbrirImagen.openImage(); //
-        JFrameImagen frame = new JFrameImagen(imagen); //
-        frame.setTitle("ImagenOriaginal");//
+        Image imagen = AbrirImagen.openImage();
+        JFrameImagen frame = new JFrameImagen(imagen);
+        frame.setTitle("Imagen original");
+        Histogramas hi = new Histogramas(imagen);
+        hi.graficarHistogramas();
         
-        Image imagenS = FiltrosEspaciales.generarImagenGrises(imagen);        
+        
+        /*Image solbel = Convolucion.sobel(imagen);
+        JFrameImagen fram = new JFrameImagen(solbel);
+        fram.setTitle("Imagen resultante");
+        Histogramas h2 = new Histogramas(solbel);
+        h2.graficarHistogramas();*/
+        
+        //prewitt
+        Image prewitt = Convolucion.prewitt(imagen);
+        JFrameImagen fram = new JFrameImagen(prewitt);
+        fram.setTitle("Imagen resultante");
+        Histogramas h2 = new Histogramas(prewitt);
+        h2.graficarHistogramas();
+        
+        /*Image roberts = Convolucion.roberts(imagen);
+        JFrameImagen fram = new JFrameImagen(roberts);
+        fram.setTitle("Imagen resultante");
+        Histogramas h2 = new Histogramas(roberts);
+        h2.graficarHistogramas();*/
+    }
+    //tarea: trazar un radio constante y dibujar un circulo 
+    //utilizando buffered o Image
+    // del colo que sea, no importa, o si quiere un <3
+}
+        /*Image ruido = Suavizado.agregarRuidoSustractivo(imagen, 50); //
+        JFrameImagen frame1 = new JFrameImagen(ruido); //
+        Histogramas h1 = new Histogramas(ruido); //tarea: agregar titulo
+        h1.graficarHistogramas()*/
+
+/*Image imagenS = FiltrosEspaciales.generarImagenGrises(imagen);        
         JFrameImagen frame2 = new JFrameImagen(imagenS); //
         frame.setTitle("Imagen resultante");//
         Histogramas hi = new Histogramas(imagenS); 
@@ -41,7 +75,7 @@ public class Main {
         Image bi = FiltrosEspaciales.binarizacion(imagen, u); 
         JFrameImagen bin1 =  new JFrameImagen(bi); 
         Histogramas h3 =  new Histogramas(bi); 
-        h3.graficarHistogramas();
+        h3.graficarHistogramas();*/
         //        metodoIterativo(hi); 
         
         
@@ -77,10 +111,4 @@ public class Main {
         JFrameImagen fame2 = new JFrameImagen(AbrirImagen.toImage(bi)); 
         //hacer un JFrame 
         System.out.println();*/
-        
-    }
-    //tarea: trazar un radio constante y dibujar un circulo 
-    //utilizando buffered o Image
-    // del colo que sea, no importa, o si quiere un <3
-}
 //investigar otro método para el calculo del umbral  e implementarlo 
